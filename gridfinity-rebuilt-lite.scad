@@ -19,9 +19,9 @@ $fs = 0.25;
 
 /* [General Settings] */
 // number of bases along x-axis
-gridx = 3; //.5
+gridx = 4; //.5
 // number of bases along y-axis
-gridy = 3; //.5
+gridy = 6; //.5
 // bin height. See bin height information and "gridz_define" below.
 gridz = 6;
 
@@ -29,7 +29,7 @@ gridz = 6;
 // number of X Divisions
 divx = 2;
 // number of y Divisions
-divy = 2;
+divy = 6;
 
 /* [Toggles] */
 // snap gridz height to nearest 7mm increment
@@ -41,7 +41,12 @@ style_lip = 0; //[0: Regular lip, 1:remove lip subtractively, 2: remove lip and 
 // determine what the variable "gridz" applies to based on your use case
 gridz_define = 0; // [0:gridz is the height of bins in units of 7mm increments - Zack's method,1:gridz is the internal height in millimeters, 2:gridz is the overall external height of the bin in millimeters]
 // the type of tabs
-style_tab = 1; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
+style_tab = 4; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
+// tab width
+d_tabw = 20;
+// tab height
+d_tabh = 15;
+scoop = 0;
 
 /* [Base] */
 // thickness of bottom layer
@@ -53,9 +58,9 @@ only_corners = false;
 //Use gridfinity refined hole style. Not compatible with magnet_holes!
 refined_holes = false;
 // Base will have holes for 6mm Diameter x 2mm high magnets.
-magnet_holes = true;
+magnet_holes = false;
 // Base will have holes for M3 screws.
-screw_holes = true;
+screw_holes = false;
 // Magnet holes will have crush ribs to hold the magnet.
 crush_ribs = true;
 // Magnet/Screw holes will have a chamfer to ease insertion.
@@ -71,7 +76,22 @@ hole_options = bundle_hole_options(refined_holes, magnet_holes, screw_holes, cru
 color("tomato")
 render()
 gridfinityLite(gridx, gridy, gridz, gridz_define, style_lip, enable_zsnap, l_grid, hole_options, only_corners) {
-    cutEqual(n_divx = divx, n_divy = divy, style_tab = style_tab, scoop_weight = 0);
+    // cutEqual(n_divx = divx, n_divy = divy, style_tab = style_tab, scoop_weight = 0);
+
+    // 2x1 bins
+    cut(x=0, y=0, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=0, y=1, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+
+    cut(x=2, y=0, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=1, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=2, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=3, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=4, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=5, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+
+    // 2x2 bins
+    cut(x=0, y=2, w=2, h=2, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=0, y=4, w=2, h=2, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
 }
 
 // ===== CONSTRUCTION ===== //

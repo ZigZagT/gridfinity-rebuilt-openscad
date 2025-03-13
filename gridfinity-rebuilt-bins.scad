@@ -35,17 +35,17 @@ $fs = 0.25; // .01
 
 /* [General Settings] */
 // number of bases along x-axis
-gridx = 3; //.5
+gridx = 4; //.5
 // number of bases along y-axis
-gridy = 2; //.5
+gridy = 6; //.5
 // bin height. See bin height information and "gridz_define" below.
 gridz = 6; //.1
 
 /* [Linear Compartments] */
 // number of X Divisions (set to zero to have solid bin)
-divx = 1;
+divx = 2;
 // number of Y Divisions (set to zero to have solid bin)
-divy = 1;
+divy = 6;
 
 /* [Cylindrical Compartments] */
 // number of cylindrical X Divisions (mutually exclusive to Linear Compartments)
@@ -73,19 +73,23 @@ enable_zsnap = false;
 
 /* [Features] */
 // the type of tabs
-style_tab = 1; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
+style_tab = 4; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
 // which divisions have tabs
 place_tab = 0; // [0:Everywhere-Normal,1:Top-Left Division]
+// tab width
+d_tabw = 20;
+// tab height
+d_tabh = 15;
 // how should the top lip act
 style_lip = 0; //[0: Regular lip, 1:remove lip subtractively, 2: remove lip and retain height]
 // scoop weight percentage. 0 disables scoop, 1 is regular scoop. Any real number will scale the scoop.
-scoop = 1; //[0:0.1:1]
+scoop = 0; //[0:0.1:1]
 
 /* [Base Hole Options] */
 // only cut magnet/screw holes at the corners of the bin to save uneccesary print time
 only_corners = false;
 //Use gridfinity refined hole style. Not compatible with magnet_holes!
-refined_holes = true;
+refined_holes = false;
 // Base will have holes for 6mm Diameter x 2mm high magnets.
 magnet_holes = false;
 // Base will have holes for M3 screws.
@@ -106,14 +110,30 @@ hole_options = bundle_hole_options(refined_holes, magnet_holes, screw_holes, cru
 color("tomato") {
 gridfinityInit(gridx, gridy, height(gridz, gridz_define, style_lip, enable_zsnap), height_internal, sl=style_lip) {
 
-    if (divx > 0 && divy > 0) {
+    // if (divx > 0 && divy > 0) {
 
-        cutEqual(n_divx = divx, n_divy = divy, style_tab = style_tab, scoop_weight = scoop, place_tab = place_tab);
+    //     cutEqual(n_divx = divx, n_divy = divy, style_tab = style_tab, scoop_weight = scoop, place_tab = place_tab);
 
-    } else if (cdivx > 0 && cdivy > 0) {
+    // } else if (cdivx > 0 && cdivy > 0) {
 
-        cutCylinders(n_divx=cdivx, n_divy=cdivy, cylinder_diameter=cd, cylinder_height=ch, coutout_depth=c_depth, orientation=c_orientation, chamfer=c_chamfer);
-    }
+    //     cutCylinders(n_divx=cdivx, n_divy=cdivy, cylinder_diameter=cd, cylinder_height=ch, coutout_depth=c_depth, orientation=c_orientation, chamfer=c_chamfer);
+    // }
+
+
+    // 2x1 bins
+    cut(x=0, y=0, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=0, y=1, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+
+    cut(x=2, y=0, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=1, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=2, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=3, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=4, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=2, y=5, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+
+    // 2x2 bins
+    cut(x=0, y=2, w=2, h=2, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    cut(x=0, y=4, w=2, h=2, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
 }
 gridfinityBase([gridx, gridy], hole_options=hole_options, only_corners=only_corners, thumbscrew=enable_thumbscrew);
 }
@@ -132,7 +152,7 @@ gridfinityBase([3, 3]);
 // Compartments can be placed anywhere (this includes non-integer positions like 1/2 or 1/3). The grid is defined as (0,0) being the bottom left corner of the bin, with each unit being 1 base long. Each cut() module is a compartment, with the first four values defining the area that should be made into a compartment (X coord, Y coord, width, and height). These values should all be positive. t is the tab style of the compartment (0:full, 1:auto, 2:left, 3:center, 4:right, 5:none). s is a toggle for the bottom scoop.
 /*
 gridfinityInit(3, 3, height(6), 0, 42) {
-    cut(x=0, y=0, w=1.5, h=0.5, t=5, s=0);
+    cut(x=0, y=0, w=1.5, h=0.5, t=5, scoop);
     cut(0, 0.5, 1.5, 0.5, 5, 0);
     cut(0, 1, 1.5, 0.5, 5, 0);
 
