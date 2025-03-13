@@ -70,14 +70,14 @@ r_f2 = 2.8;
 // width of divider between compartments
 d_div = 1.2;
 // minimum wall thickness
-d_wall = 0.95;
+d_wall = 1.4;
 // tolerance fit factor
-d_clear = 0.25;
+d_clear = 0.15;
 
 // height of tab (yaxis, measured from inner wall)
-d_tabh = 15.85;
+d_tabh = 14;
 // maximum width of tab
-d_tabw = 42;
+d_tabw = 20;
 // angle of tab
 a_tab = 36;
 
