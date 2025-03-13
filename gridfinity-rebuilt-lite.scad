@@ -42,10 +42,6 @@ style_lip = 0; //[0: Regular lip, 1:remove lip subtractively, 2: remove lip and 
 gridz_define = 0; // [0:gridz is the height of bins in units of 7mm increments - Zack's method,1:gridz is the internal height in millimeters, 2:gridz is the overall external height of the bin in millimeters]
 // the type of tabs
 style_tab = 4; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
-// tab width
-d_tabw = 20;
-// tab height
-d_tabh = 15;
 scoop = 0;
 
 /* [Base] */
