@@ -167,18 +167,11 @@ module gridfinityInit(gx, gy, h, fill_height = 0, grid_dimensions = GRID_DIMENSI
         children();
     }
 
-    add_lips(0, 0, 2, 1);
-    add_lips(0, 1, 2, 1);
-
-    add_lips(2, 0, 2, 1);
-    add_lips(2, 1, 2, 1);
-    add_lips(2, 2, 2, 1);
-    add_lips(2, 3, 2, 1);
-    add_lips(2, 4, 2, 1);
-    add_lips(2, 5, 2, 1);
-
-    add_lips(0, 2, 2, 2);
-    add_lips(0, 4, 2, 2);
+    for (x = [0:3]) {
+        for (y = [0:5]) {
+            add_lips(x, y, 1, 1);
+        }
+    }
 
     // Outer Wall
     color("royalblue")

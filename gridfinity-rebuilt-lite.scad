@@ -74,21 +74,12 @@ render()
 
 gridfinityLite(gridx, gridy, gridz, gridz_define, style_lip, enable_zsnap, l_grid, hole_options, only_corners) {
     // cutEqual(n_divx = divx, n_divy = divy, style_tab = style_tab, scoop_weight = 0);
-
-    // 2x1 bins
-    cut(x=0, y=0, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=0, y=1, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-
-    cut(x=2, y=0, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=2, y=1, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=2, y=2, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=2, y=3, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=2, y=4, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=2, y=5, w=2, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-
-    // 2x2 bins
-    cut(x=0, y=2, w=2, h=2, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
-    cut(x=0, y=4, w=2, h=2, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+    // Generate 1x1 bins for 4x6 grid
+    for (x = [0:3]) {
+        for (y = [0:5]) {
+            cut(x=x, y=y, w=1, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
+        }
+    }
 }
 
 // ===== CONSTRUCTION ===== //
