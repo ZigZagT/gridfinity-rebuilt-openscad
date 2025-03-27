@@ -167,6 +167,19 @@ module gridfinityInit(gx, gy, h, fill_height = 0, grid_dimensions = GRID_DIMENSI
         children();
     }
 
+    add_lips(0, 0, 2, 1);
+    add_lips(0, 1, 2, 1);
+
+    add_lips(2, 0, 2, 1);
+    add_lips(2, 1, 2, 1);
+    add_lips(2, 2, 2, 1);
+    add_lips(2, 3, 2, 1);
+    add_lips(2, 4, 2, 1);
+    add_lips(2, 5, 2, 1);
+
+    add_lips(0, 2, 2, 2);
+    add_lips(0, 4, 2, 2);
+
     // Outer Wall
     color("royalblue")
     translate([0, 0, BASE_HEIGHT])
@@ -575,6 +588,7 @@ module profile_wall(height_mm) {
     translate([r_base - STACKING_LIP_SIZE.x, 0, 0]){
         translate([0, height_mm, 0])
         stacking_lip_filleted();
+
         translate([STACKING_LIP_SIZE.x-d_wall/2, 0, 0])
         square([d_wall/2, height_mm]);
     }
@@ -628,6 +642,7 @@ module block_cutter(x,y,w,h,t,s,tab_width=d_tabw,tab_height=d_tabh) {
     if (!zsmall && xlen - tab_width > 4*r_f2 && (t != 0 && t != 5)) {
         fillet_cutter(3,"bisque")
         difference() {
+            // translate([-_stacking_lip_support_height_mm + 0.3, 0, 0])
             transform_tab(style, xlen, ((xcutfirst&&style==-1)||(xcutlast&&style==1))?v_cut_lip:0, tab_width)
             translate([ycutlast?v_cut_lip:0,0])
             profile_cutter(height-h_bot, ylen/2, s);
@@ -643,6 +658,7 @@ module block_cutter(x,y,w,h,t,s,tab_width=d_tabw,tab_height=d_tabh) {
         if (t != 0 && t != 5)
         fillet_cutter(2,"indigo")
         difference() {
+            // translate([-_stacking_lip_support_height_mm + 0.3, 0, 0])
             transform_tab(style, xlen, ((xcutfirst&&style==-1)||(xcutlast&&style==1)?v_cut_lip:0), tab_width)
             difference() {
                 intersection() {
@@ -767,4 +783,17 @@ module profile_cutter_tab(h, tab, ang) {
         offset(delta = r_f2)
         polygon([[0,h],[tab,h],[0,h-tab*tan(ang)]]);
 
+}
+
+module add_lips(x, y, w, h) {
+    grid_size_mm = [w * l_grid, h * l_grid];
+
+    translate([
+        (x - ($gxx - w) / 2) * l_grid,
+        (y - ($gyy - h) / 2) * l_grid,
+        BASE_HEIGHT
+    ])
+    sweep_rounded(foreach_add(grid_size_mm, -2*BASE_TOP_RADIUS-0.5-0.001)) {
+        profile_wall($dh);
+    }
 }

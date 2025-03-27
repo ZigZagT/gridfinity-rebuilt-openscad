@@ -71,6 +71,7 @@ hole_options = bundle_hole_options(refined_holes, magnet_holes, screw_holes, cru
 // Input all the cutter types in here
 color("tomato")
 render()
+
 gridfinityLite(gridx, gridy, gridz, gridz_define, style_lip, enable_zsnap, l_grid, hole_options, only_corners) {
     // cutEqual(n_divx = divx, n_divy = divy, style_tab = style_tab, scoop_weight = 0);
 
@@ -99,10 +100,17 @@ module gridfinityLite(gridx, gridy, gridz, gridz_define, style_lip, enable_zsnap
     // Made up for in bin height.
     // Ensures divider walls smoothly transition to the bottom
     lower_by_mm = BASE_HEIGHT + bottom_layer;
+    h = height_mm+lower_by_mm;
 
+        echo("STACKING_LIP_SUPPORT_HEIGHT", STACKING_LIP_SUPPORT_HEIGHT);
+        echo("_stacking_lip_support_height_mm", _stacking_lip_support_height_mm);
+        echo("STACKING_LIP", STACKING_LIP);
+        echo("STACKING_LIP_SIZE", STACKING_LIP_SIZE);
     difference() {
         translate([0, 0, -lower_by_mm])
-        gridfinityInit(gridx, gridy, height_mm+lower_by_mm, 0, length, sl=style_lip)
+
+        // gridfinityInit(gridx, gridy, h, h + _stacking_lip_support_height_mm - 0.3, GRID_DIMENSIONS_MM, sl=style_lip)
+        gridfinityInit(gridx, gridy, h, 0, GRID_DIMENSIONS_MM, sl=style_lip)
         children();
 
         // Underside of the base. Keep out zone.
