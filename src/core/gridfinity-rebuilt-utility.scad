@@ -158,28 +158,28 @@ module gridfinityInit(gx, gy, h, fill_height = 0, grid_dimensions = GRID_DIMENSI
     grid_size_mm = [gx * grid_dimensions.x, gy * grid_dimensions.y];
 
     // Inner Fill
+    lip_hight = 6; // 5 is the minimal possible value
     difference() {
         color("firebrick")
         translate([0, 0, BASE_HEIGHT])
-        linear_extrude(fill_height_real)
-        rounded_square(foreach_add(grid_size_mm, -d_wall/2),
-                       BASE_TOP_RADIUS,
-                       center=true);
-        children();
-    }
+        union() {
+            difference() {
+                rounded_square(concat(foreach_add(grid_size_mm, -TOLLERANCE), lip_hight + fill_height_real),
+                    radius = BASEPLATE_OUTER_RADIUS, center=true);
 
-    lip_hight = 18;
-
-    translate([0, 0, BASE_HEIGHT + fill_height_real])
-    difference() {
-        rounded_square(concat(foreach_add(grid_size_mm, -TOLLERANCE), lip_hight),
-            radius = BASEPLATE_OUTER_RADIUS, center=true);
-
-        for (x = [0:3]) {
-            for (y = [0:5]) {
-                lip_cutter(x, y, 1, 1, lip_hight);
+                for (x = [0:3]) {
+                    for (y = [0:5]) {
+                        lip_cutter(x, y, 1, 1, lip_hight + fill_height_real);
+                    }
+                }
             }
+
+            linear_extrude(fill_height_real)
+            rounded_square(foreach_add(grid_size_mm, -d_wall/2),
+                        BASE_TOP_RADIUS,
+                        center=true);
         }
+        children();
     }
 
     // Outer Wall
