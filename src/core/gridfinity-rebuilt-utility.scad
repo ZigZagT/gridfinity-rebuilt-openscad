@@ -6,6 +6,7 @@
 
 include <standard.scad>
 use <gridfinity-rebuilt-holes.scad>
+include <gridfinity-baseplate.scad>
 use <../helpers/generic-helpers.scad>
 use <../external/threads-scad/threads.scad>
 
@@ -167,9 +168,17 @@ module gridfinityInit(gx, gy, h, fill_height = 0, grid_dimensions = GRID_DIMENSI
         children();
     }
 
-    for (x = [0:3]) {
-        for (y = [0:5]) {
-            add_lips(x, y, 1, 1);
+    lip_hight = 18;
+
+    translate([0, 0, BASE_HEIGHT + fill_height_real])
+    difference() {
+        rounded_square(concat(foreach_add(grid_size_mm, -TOLLERANCE), lip_hight),
+            radius = BASEPLATE_OUTER_RADIUS, center=true);
+
+        for (x = [0:3]) {
+            for (y = [0:5]) {
+                lip_cutter(x, y, 1, 1, lip_hight);
+            }
         }
     }
 
@@ -177,6 +186,10 @@ module gridfinityInit(gx, gy, h, fill_height = 0, grid_dimensions = GRID_DIMENSI
     color("royalblue")
     translate([0, 0, BASE_HEIGHT])
     //todo: Remove these constants
+    // translate([r_base,0,0])
+    // mirror([1,0,0])
+    // square([d_wall, height_mm]);
+
     sweep_rounded(foreach_add(grid_size_mm, -2*BASE_TOP_RADIUS-0.5-0.001)) {
         if ($style_lip == 0) {
             profile_wall(h);
@@ -778,15 +791,13 @@ module profile_cutter_tab(h, tab, ang) {
 
 }
 
-module add_lips(x, y, w, h) {
+module lip_cutter(x, y, w, h, lip_hight) {
     grid_size_mm = [w * l_grid, h * l_grid];
 
     translate([
         (x - ($gxx - w) / 2) * l_grid,
         (y - ($gyy - h) / 2) * l_grid,
-        BASE_HEIGHT
+        0
     ])
-    sweep_rounded(foreach_add(grid_size_mm, -2*BASE_TOP_RADIUS-0.5-0.001)) {
-        profile_wall($dh);
-    }
+    baseplate_cutter([w * l_grid, h * l_grid], lip_hight);
 }

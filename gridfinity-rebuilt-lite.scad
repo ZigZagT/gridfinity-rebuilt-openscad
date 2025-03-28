@@ -35,7 +35,7 @@ divy = 6;
 // snap gridz height to nearest 7mm increment
 enable_zsnap = false;
 // how should the top lip act
-style_lip = 0; //[0: Regular lip, 1:remove lip subtractively, 2: remove lip and retain height]
+style_lip = 1; //[0: Regular lip, 1:remove lip subtractively, 2: remove lip and retain height]
 
 /* [Other] */
 // determine what the variable "gridz" applies to based on your use case
@@ -80,6 +80,7 @@ gridfinityLite(gridx, gridy, gridz, gridz_define, style_lip, enable_zsnap, l_gri
             cut(x=x, y=y, w=1, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
         }
     }
+    // cut(x=0, y=1, w=1, h=1, t=style_tab, scoop, tab_width=d_tabw, tab_height=d_tabh);
 }
 
 // ===== CONSTRUCTION ===== //
